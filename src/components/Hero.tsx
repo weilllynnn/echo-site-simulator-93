@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import WalletDialog from "./WalletDialog";
+import { Shield, Wallet, Blocks } from "lucide-react";
 
 const Hero = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -22,19 +23,31 @@ const Hero = () => {
               Built-in risk monitoring tools help over 70 million Trust Wallet users safeguard their assets and avoid potential scams.
             </p>
             <Button 
-              className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6"
+              className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6 mb-16"
               onClick={handleButtonClick}
             >
               Get Started
             </Button>
-            <div className="relative w-full max-w-4xl h-[400px] mt-8">
-              <img
-                src="/lovable-uploads/bb939cea-b017-4bdf-967d-470588c179af.png"
-                alt="Trust Wallet App"
-                className="absolute left-1/2 transform -translate-x-1/2 w-[300px] animate-float"
-              />
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 text-center">
+                <Shield className="w-12 h-12 mx-auto mb-4 text-blue-200" />
+                <h3 className="text-xl font-bold mb-2">Secure Storage</h3>
+                <p className="text-blue-100">Store your crypto assets securely with industry-leading encryption</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 text-center">
+                <Wallet className="w-12 h-12 mx-auto mb-4 text-blue-200" />
+                <h3 className="text-xl font-bold mb-2">Multi-Chain Support</h3>
+                <p className="text-blue-100">Access multiple blockchains from a single secure wallet</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 text-center">
+                <Blocks className="w-12 h-12 mx-auto mb-4 text-blue-200" />
+                <h3 className="text-xl font-bold mb-2">DeFi Integration</h3>
+                <p className="text-blue-100">Seamlessly interact with DeFi protocols and dApps</p>
+              </div>
             </div>
-            <div className="flex justify-center space-x-16 mt-12 text-center">
+
+            <div className="flex justify-center space-x-16 mt-16 text-center">
               <div>
                 <div className="text-3xl font-bold">70M+</div>
                 <div className="text-blue-200">PEOPLE</div>
