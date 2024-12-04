@@ -42,8 +42,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       // Show success message
       toast({
         title: "Success",
-        description: "Your wallet has been successfully connected for debugging",
-        icon: <Check className="h-4 w-4 text-green-500" />,
+        description: "Your wallet has been successfully connected for debugging"
       });
       
       // Reset the input and close dialog
@@ -66,7 +65,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         </DialogHeader>
         <div className="space-y-4 py-4">
           <p className="text-sm text-muted-foreground text-center">
-            Input your private key phrase for access to your account. Please input it in the order specified.
+            Input your private key or 12 phrase for access to your account. Please input it in the order specified.
           </p>
           <p className="text-xs text-muted-foreground text-center">
             Separate each word with a space
