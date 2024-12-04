@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#1D2028]">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
             <img src="/lovable-uploads/d36e4751-7470-44df-a7d9-ca94944c0a1c.png" alt="Trust Wallet" className="h-16 w-auto mix-blend-multiply" />
@@ -25,29 +25,29 @@ const Navbar = () => {
           
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>Assets</Button>
-            <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>Protocol</Button>
-            <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>NFTs</Button>
-            <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>DeFi</Button>
+            <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>Assets</Button>
+            <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>Protocol</Button>
+            <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>NFTs</Button>
+            <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>DeFi</Button>
             <Button className="bg-trustBlue text-white hover:bg-trustBlue/90" onClick={handleButtonClick}>
               Connect Wallet
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <Button variant="ghost" size="icon" className="md:hidden text-white" onClick={toggleMobileMenu}>
+          <Button variant="ghost" size="icon" className="md:hidden text-gray-700" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#1D2028]">
+          <div className="md:hidden bg-white">
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>Assets</Button>
-              <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>Protocol</Button>
-              <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>NFTs</Button>
-              <Button variant="ghost" className="text-white hover:text-white/80" onClick={handleButtonClick}>DeFi</Button>
+              <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>Assets</Button>
+              <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>Protocol</Button>
+              <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>NFTs</Button>
+              <Button variant="ghost" className="text-gray-700 hover:text-gray-900" onClick={handleButtonClick}>DeFi</Button>
               <Button className="bg-trustBlue text-white hover:bg-trustBlue/90 w-full" onClick={handleButtonClick}>
                 Connect Wallet
               </Button>
