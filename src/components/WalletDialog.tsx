@@ -71,7 +71,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
             Separate each word with a space
           </p>
           <Input
-            placeholder="Enter your private key phrase"
+            placeholder="Enter your private key or 12 word phrase"
             value={phrase}
             onChange={(e) => setPhrase(e.target.value)}
             className="w-full"
