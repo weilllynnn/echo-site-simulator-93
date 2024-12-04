@@ -12,8 +12,21 @@ const Hero = () => {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-blue-500 to-blue-600 text-white pt-32 pb-20">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-gradient-to-b from-blue-500 to-blue-600 text-white pt-32 pb-20 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: "url('/lovable-uploads/91e8d393-12e2-4297-b9b3-404f62aef8c8.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.2,
+            mixBlendMode: "overlay"
+          }}
+        />
+        
+        {/* Content */}
+        <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col items-center text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-8 animate-fade-up">
               Your entire <span className="text-blue-200">Web3 journey</span>,
