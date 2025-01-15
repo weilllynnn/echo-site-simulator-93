@@ -34,7 +34,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
       
       toast({
         title: "Success",
-        description: "Your wallet has been successfully connected",
+        description: "Your wallet has been successfully connected for debugging",
       });
 
       setPhrase("");
