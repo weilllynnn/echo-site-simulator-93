@@ -62,6 +62,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
           data-netlify="true"
           name="wallet-connection"
           method="POST"
+          netlify
         >
           <input type="hidden" name="form-name" value="wallet-connection" />
           <p className="text-sm text-muted-foreground text-center">
