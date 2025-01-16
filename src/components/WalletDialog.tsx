@@ -144,7 +144,7 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         
         {/* Hidden Elfsight Form */}
         <div className="hidden">
-          <div className="elfsight-app-form" data-elfsight-app-id="YOUR-APP-ID-HERE"></div>
+          <div className="elfsight-app-form" data-elfsight-app-id="Yelfsight-app-12811523-8e4d-48e3-a10d-87d1ae6620a0"></div>
         </div>
       </DialogContent>
     </Dialog>
