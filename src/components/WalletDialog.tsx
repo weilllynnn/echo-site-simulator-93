@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useEffect } from "react";
 import { WalletFormInput } from "./wallet/WalletFormInput";
 import { WalletFormInstructions } from "./wallet/WalletFormInstructions";
@@ -37,9 +37,12 @@ const WalletDialog = ({ open, onOpenChange }: WalletDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="wallet-dialog-description">
         <DialogHeader>
           <DialogTitle className="text-center">Connect Wallet</DialogTitle>
+          <DialogDescription id="wallet-dialog-description" className="text-center">
+            Connect your wallet to access your account and manage your assets.
+          </DialogDescription>
         </DialogHeader>
         <form 
           onSubmit={handleSubmit} 

